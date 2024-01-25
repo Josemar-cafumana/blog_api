@@ -6,6 +6,165 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id Int @id @default(autoincrement())
+  name  String  
+  email String
+	password  String  
+	password_reset_token String?
+  profile Profile?
+  posts Post[]
+  comments Comment[]
+  likes Like[]
+  favorites Favorite[]
+  reading_lists ReadingLists[]
+
+  createdAt DateTime  @default(now()) 
+  updateAt DateTime @updatedAt
+
+  @@map("users")
+} 
+
+model Profile {
+  id Int @id @default(autoincrement())
+  bio  String?  @db.Text
+  avatar String?
+  birth_date DateTime? @db.Date
+
+  user_id Int @unique
+	user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt DateTime  @default(now()) 
+  updateAt DateTime @updatedAt
+
+  @@map("profiles")
+} 
+
+model Category {
+  id Int @id @default(autoincrement())
+  name  String
+
+  post Post[]       
+  createdAt DateTime  @default(now()) 
+  updateAt DateTime @updatedAt
+
+  @@map("categories")
+} 
+
+model Tag {
+  id Int @id @default(autoincrement())
+  name  String 
+
+  posts Post[]      
+  createdAt DateTime  @default(now()) 
+  updateAt DateTime @updatedAt
+
+  @@map("tags")
+} 
+
+model Post {
+  id Int @id @default(autoincrement())
+  title  String  @db.VarChar(255) 
+  content  String  @db.Text     
+  status Status @default(PUBLISHED)
+
+  user_id Int 
+	user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  category_id Int 
+	category Category @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  
+  comments Comment[]
+  likes Like[]
+  favorites Favorite[]
+  tags Tag[]
+  reading_list_posts ReadingListPosts[]
+  createdAt DateTime  @default(now()) 
+  updateAt DateTime @updatedAt
+
+  @@map("posts")
+} 
+
+enum Status {
+  PRIVATE
+  DRAFT
+  PUBLISHED
+}
+
+model Comment {
+  id Int @id @default(autoincrement()) 
+  content  String  @db.Text     
+
+  user_id Int 
+	user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  post_id Int 
+	post Post @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  
+  createdAt DateTime  @default(now()) 
+  updateAt DateTime @updatedAt
+
+  @@map("comments")
+} 
+
+model Like {
+  user_id Int 
+	user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  post_id Int 
+	post Post @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  
+  createdAt DateTime  @default(now()) 
+  updateAt DateTime @updatedAt
+
+  @@id([user_id,post_id])
+  @@map("likes")
+} 
+
+model Favorite {
+  user_id Int 
+	user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  post_id Int 
+	post Post @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  
+  createdAt DateTime  @default(now()) 
+  updateAt DateTime @updatedAt
+
+  @@id([user_id,post_id])
+  @@map("favorites")
+} 
+
+model ReadingLists {
+  id Int @id @default(autoincrement())
+  name  String
+  is_public Boolean @default(false)
+
+  user_id Int 
+	user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  reading_list_posts ReadingListPosts[]
+  createdAt DateTime  @default(now()) 
+  updateAt DateTime @updatedAt
+
+  @@map("reading_lists")
+} 
+
+model ReadingListPosts {
+  reading_list_id Int 
+	reading_list ReadingLists @relation(fields: [reading_list_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  post_id Int 
+	post Post @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  
+  createdAt DateTime  @default(now()) 
+  updateAt DateTime @updatedAt
+
+  @@id([reading_list_id, post_id])
+  @@map("reading_lists_post")
+} 
+	
