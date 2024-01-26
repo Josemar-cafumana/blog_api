@@ -1,6 +1,9 @@
+
 import Express from 'express'; 
 import 'dotenv/config';
+import './shared/services/yup';
 import { authRouter } from './routes/auth.routes';
+import { errorHandler } from './shared/middleware/errorHandler';
 
 const app = Express();
 

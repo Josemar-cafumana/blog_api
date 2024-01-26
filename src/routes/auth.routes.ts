@@ -9,5 +9,6 @@ authRouter.post('/signup', authValidator.signUp, authController.signUp);
 authRouter.post('/logout',  authController.logout);
 authRouter.post('/reset', authValidator.resetPassword, authController.resetPassword);
 authRouter.put('/update', authValidator.update, authController.update);
+authRouter.post('/refreshtoken', authValidator.refreshTokenUser, authController.refreshTokenUser);
 
 export { authRouter };
