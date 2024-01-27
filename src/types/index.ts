@@ -8,6 +8,20 @@ export interface IUser {
   updateAt?: Date;
 }
 
+export interface ICategory {
+  id?: number;
+  name: string;
+  createdAt?: Date;
+  updateAt?: Date;
+}
+
+export interface ITag {
+  id?: number;
+  name: string;
+  createdAt?: Date;
+  updateAt?: Date;
+}
+
 export interface IMailOptions {
   from?: string;
   to: string;

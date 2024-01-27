@@ -57,7 +57,7 @@ model Profile {
 
 model Category {
   id Int @id @default(autoincrement())
-  name  String
+  name  String @unique
 
   post Post[]       
   createdAt DateTime  @default(now()) 
@@ -68,7 +68,7 @@ model Category {
 
 model Tag {
   id Int @id @default(autoincrement())
-  name  String 
+  name  String @unique
 
   posts Post[]      
   createdAt DateTime  @default(now()) 
