@@ -1,13 +1,25 @@
-import { prisma } from '../../../database';
+import { prisma } from '../..';
 import { ICategory } from '../../../types';
 
-export const getAll = async (): Promise<ICategory[] | Error> => {
-  try {
-    const categories = await prisma.category.findMany();
+interface IData {
+  data: ICategory[];
+  total: number
+}
 
-    return categories;
+export const getAll = async (page: number , size: number ): Promise<IData | Error> => {
+  try {
+    const skip = (page - 1) * size;
+    const [data, total] = await Promise.all([
+      prisma.category.findMany({
+        skip,
+        take: size,
+      }),
+      prisma.category.count(),
+    ]);
+
+    return { data, total };
   } catch (error) {
-    return new Error('Erro ao pegar registros');
+    throw new Error('Erro ao pegar registros');
   }
   
 };
