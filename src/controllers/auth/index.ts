@@ -1,16 +1,16 @@
 import { signUp } from './signUp';
-import { update } from './update';
+import { resetPassword } from './resetPassword';
 import { logout } from './logout';
 import { signIn } from './signIn';
-import { resetPassword } from './resetPassword';
+import { forgotPassword } from './forgotPassword';
 import { refreshTokenUser } from './refreshTokenUser';
 
 
 export const authController = {
   signUp,
-  update,
+  resetPassword,
   logout,
   signIn,
-  resetPassword,
+  forgotPassword,
   refreshTokenUser
 };

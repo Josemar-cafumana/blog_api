@@ -1,11 +1,11 @@
 import { signUp } from './signUp';
-import { update } from './update';
-import { signIn } from './signIn';
 import { resetPassword } from './resetPassword';
+import { signIn } from './signIn';
+import { forgotPassword } from './forgotPassword';
 
 export const authProvider = {
   signUp,
-  update,
-  signIn,
   resetPassword,
+  signIn,
+  forgotPassword,
 };

@@ -7,7 +7,7 @@ export const ensureAuthenticated: RequestHandler =  async (req, res, next) => {
 
   if(!authorization) {
     return res.status(StatusCodes.UNAUTHORIZED).json({
-      errors: { default: 'Não autenticado'}
+      errors: { message: 'Não autenticado'}
     });
   }
 
@@ -18,13 +18,13 @@ export const ensureAuthenticated: RequestHandler =  async (req, res, next) => {
 
   if(jwtData == 'INVALID_TOKEN') {
     return res.status(StatusCodes.UNAUTHORIZED).json({
-      errors: { default: 'Token Inválido'}
+      errors: { message: 'Token Inválido'}
     });
   }
 
   if(jwtData == 'JWT_SECRET_NOT_FOUND') {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      errors: { default: 'Erro ao gerar token de acesso'}
+      errors: { message: 'Erro ao gerar token de acesso'}
     });
   }
 

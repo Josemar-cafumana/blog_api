@@ -19,7 +19,7 @@ export const refreshTokenUser = async (
 
   const refreshTokenExpired = dayjs().isAfter(dayjs.unix(refreshToken.expires_in));
 
-  const acessToken = jwtService.signIn({ id: refreshToken.user.id, email: refreshToken.user.email, name: refreshToken.user.email }, '10s');
+  const acessToken = jwtService.signIn({ id: refreshToken.user.id, email: refreshToken.user.email, name: refreshToken.user.email }, '5h');
   if(acessToken === 'JWT_SECRET_NOT_FOUND') {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors: { default: 'Erro ao gerar token de acesso'} });
   }

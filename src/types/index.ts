@@ -7,3 +7,13 @@ export interface IUser {
   createdAt?: Date;
   updateAt?: Date;
 }
+
+export interface IMailOptions {
+  from?: string;
+  to: string;
+  subject: string;
+  html: {
+    path: string;
+    replacements: object;
+  }
+}
