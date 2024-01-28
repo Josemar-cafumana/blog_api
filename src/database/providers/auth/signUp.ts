@@ -21,7 +21,13 @@ export const signUp = async (name: string, email: string, password: string): Pro
         name,
         email,
         password: hashedPassword,
-      }
+        profile: {
+          create: {
+            bio: null
+          }
+        }
+      },
+      
     });
 
     return user;
