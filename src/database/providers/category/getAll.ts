@@ -18,8 +18,8 @@ export const getAll = async (page: number , size: number ): Promise<IData | Erro
     ]);
 
     return { data, total };
-  } catch (error) {
-    throw new Error('Erro ao pegar registros');
+  } catch (error : unknown) {
+    return new Error(error as string);
   }
   
 };

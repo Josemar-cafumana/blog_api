@@ -1,6 +1,8 @@
 import { IUser } from '../../../types';
 import { prisma } from '../..';
 import { jwtService } from '../../../shared/services';
+import { ApiError } from '../../../utils/appError';
+import { StatusCodes } from 'http-status-codes';
 
 export const forgotPassword = async (email: string) : Promise<IUser  | Error> => {
   try {
@@ -10,12 +12,12 @@ export const forgotPassword = async (email: string) : Promise<IUser  | Error> =>
       }
     });
     
-    if(!user) return new Error('Usuário não encontrado'); 
+    if(!user) return new ApiError('Usuário não encontrado', StatusCodes.NOT_FOUND); 
     
 
     const resetToken = jwtService.resetTokenSignIn(user.email, '60s');
     if(resetToken === 'JWT_SECRET_NOT_FOUND') {
-      return new Error('Erro ao gerar token de acesso'); 
+      return new ApiError('Erro ao gerar token de acesso', StatusCodes.INTERNAL_SERVER_ERROR); 
     }
 
     const newUser = await prisma.user.update({
@@ -29,8 +31,7 @@ export const forgotPassword = async (email: string) : Promise<IUser  | Error> =>
 
 
     return newUser;
-  } catch (error) {
-    console.log('error aqui', error);
-    return new Error('Usuário não encontrado');
+  } catch (error : unknown) {
+    return new Error(error as string);
   }
 };

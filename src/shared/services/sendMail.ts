@@ -4,9 +4,13 @@ import Handlebars from 'handlebars';
 import { readFileSync } from 'fs';
 import { IMailOptions } from '../../types';
 
-export const sendMail = async (optionsMail: IMailOptions): Promise<SMTPTransport.SentMessageInfo | Error> => {
-
-  const source = readFileSync(`./src/resources/${optionsMail.html.path}`, 'utf-8').toString();
+export const sendMail = async (
+  optionsMail: IMailOptions
+): Promise<SMTPTransport.SentMessageInfo | Error> => {
+  const source = readFileSync(
+    `./src/resources/${optionsMail.html.path}`,
+    'utf-8'
+  ).toString();
   const template = Handlebars.compile(source);
   const htmlToSend = template(optionsMail.html.replacements);
 
@@ -14,7 +18,7 @@ export const sendMail = async (optionsMail: IMailOptions): Promise<SMTPTransport
     host: process.env.MAIL_HOST,
     port: Number(process.env.MAIL_PORT),
     auth: {
-      user: process.env.MAIL_USERNAME ,
+      user: process.env.MAIL_USERNAME,
       pass: process.env.MAIL_PASSWORD,
     },
   });
@@ -28,12 +32,8 @@ export const sendMail = async (optionsMail: IMailOptions): Promise<SMTPTransport
 
   try {
     const info = await transport.sendMail(mailOptions);
-    return info; 
-  } catch (error) {
-    console.error(error);
-    return new Error('Erro ao enviar email');
+    return info;
+  } catch (error: unknown) {
+    return new Error(error as string);
   }
-
- 
-
 };

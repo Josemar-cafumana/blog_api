@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { jwtService } from '../../shared/services';
 import dayjs from 'dayjs';
@@ -6,14 +6,15 @@ import { refreshTokenProvider } from '../../database/providers/refreshToken';
 
 export const refreshTokenUser = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const { refresh_token } = req.body;
   
   const refreshToken = await refreshTokenProvider.getRefreshToken(refresh_token);
   
   if(refreshToken instanceof Error) {
-    return res.status(StatusCodes.BAD_REQUEST).json({ errors: { message: refreshToken.message} });
+    return next(refreshToken);
   }
 
 
@@ -28,14 +29,12 @@ export const refreshTokenUser = async (
     const newRefreshToken = await refreshTokenProvider.generateRefreshToken(refreshToken.user_id);
 
     if(newRefreshToken instanceof Error) {
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors: { message: newRefreshToken.message} });
+      return next(newRefreshToken);
     }
 
     return res.json({ acessToken, refreshToken: newRefreshToken }).status(StatusCodes.OK);
   }
 
   
-
-
   return res.json({ acessToken, refreshToken  }).status(StatusCodes.OK);
 };

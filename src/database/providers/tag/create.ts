@@ -1,5 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../..';
 import { ITag } from '../../../types';
+import { ApiError } from '../../../utils/appError';
 
 export const create = async (name: string): Promise<ITag | Error> => {
   try {
@@ -9,7 +11,7 @@ export const create = async (name: string): Promise<ITag | Error> => {
       }
     });
 
-    if(tagAlreadyExist) return new Error('A tag informada já foi cadastrada'); 
+    if(tagAlreadyExist) return new ApiError('A tag informada já foi cadastrada', StatusCodes.BAD_REQUEST); 
 
     const tag = await prisma.tag.create({
       data: {
@@ -18,8 +20,8 @@ export const create = async (name: string): Promise<ITag | Error> => {
     });
 
     return tag;
-  } catch (error) {
-    return new Error('Erro ao cadastrar o registro');
+  } catch (error : unknown) {
+    return new Error(error as string);
   }
   
 };

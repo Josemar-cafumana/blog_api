@@ -1,4 +1,6 @@
+import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../..';
+import { ApiError } from '../../../utils/appError';
 
 export const deleteById = async (id: number): Promise<number | Error> => {
   try {
@@ -8,7 +10,7 @@ export const deleteById = async (id: number): Promise<number | Error> => {
       }
     });
 
-    if(!tagExists) return new Error('Tag não encontrada'); 
+    if(!tagExists) return new ApiError('Tag não encontrada', StatusCodes.NOT_FOUND); 
 
     const tag = await prisma.tag.delete({
       where: {
@@ -17,8 +19,8 @@ export const deleteById = async (id: number): Promise<number | Error> => {
     });
 
     return tag.id;
-  } catch (error) {
-    return new Error('Erro ao deletar o registro');
+  } catch (error : unknown) {
+    return new Error(error as string);
   }
   
 };

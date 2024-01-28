@@ -1,5 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../..';
 import { ICategory } from '../../../types';
+import { ApiError } from '../../../utils/appError';
 
 export const getById = async (id: number): Promise<ICategory | Error> => {
   try {
@@ -9,11 +11,11 @@ export const getById = async (id: number): Promise<ICategory | Error> => {
       }
     });
 
-    if(!category) return new Error('Categoria não encontrada'); 
+    if(!category) return new ApiError('Categoria não encontrada', StatusCodes.NOT_FOUND); 
 
     return category;
-  } catch (error) {
-    return new Error('Erro ao pegar o registro');
+  } catch (error : unknown) {
+    return new Error(error as string);
   }
   
 };

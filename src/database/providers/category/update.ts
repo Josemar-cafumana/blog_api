@@ -1,5 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../..';
 import { ICategory } from '../../../types';
+import { ApiError } from '../../../utils/appError';
 
 export const update = async (id: number, data: ICategory): Promise<ICategory | Error> => {
   try {
@@ -9,7 +11,7 @@ export const update = async (id: number, data: ICategory): Promise<ICategory | E
       }
     });
 
-    if(!categoryExists) return new Error('Categoria não encontrada'); 
+    if(!categoryExists) return new ApiError('Categoria não encontrada', StatusCodes.NOT_FOUND); 
 
     const category = await prisma.category.update({
       where: {
@@ -21,8 +23,8 @@ export const update = async (id: number, data: ICategory): Promise<ICategory | E
     });
 
     return category;
-  } catch (error) {
-    return new Error('Erro ao actualizar o registro');
+  } catch (error : unknown) {
+    return new Error(error as string);
   }
   
 };

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { authProvider } from '../../database/providers/auth';
 import { sendMail } from '../../shared/services';
@@ -7,14 +7,15 @@ import { IMailOptions } from '../../types';
 
 export const forgotPassword = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const { email } = req.body;
 
   const user = await authProvider.forgotPassword(email);
 
   if(user instanceof Error) {
-    return res.status(StatusCodes.BAD_REQUEST).json({ errors: { message: user.message} });
+    return next(user);
   }
 
   // Enviar o email
@@ -33,7 +34,7 @@ export const forgotPassword = async (
 
   const send = await sendMail(optionsMail);
   if(send instanceof Error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors: { message: send.message} });
+    return next(send);
   } 
   
  

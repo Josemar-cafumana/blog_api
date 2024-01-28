@@ -1,6 +1,8 @@
+import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../../../database';
 import { passwordCrypto } from '../../../shared/services';
 import { IUser } from '../../../types';
+import { ApiError } from '../../../utils/appError';
 
 export const signUp = async (name: string, email: string, password: string): Promise<IUser | Error> => {
   try {
@@ -10,7 +12,7 @@ export const signUp = async (name: string, email: string, password: string): Pro
       }
     });
 
-    if(userAlreadyExist) return new Error('O usuário informado já está cadastrado'); 
+    if(userAlreadyExist) return new ApiError('O usuário informado já está cadastrado', StatusCodes.BAD_REQUEST); 
 
     const hashedPassword = await passwordCrypto.hashPassword(password);
 
@@ -23,8 +25,8 @@ export const signUp = async (name: string, email: string, password: string): Pro
     });
 
     return user;
-  } catch (error) {
-    return new Error('Erro ao cadastrar o registro');
+  } catch (error : unknown) {
+    return new Error(error as string);
   }
   
 };

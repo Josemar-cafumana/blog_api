@@ -16,7 +16,7 @@ export const generateRefreshToken = async (user_id: number): Promise<RefreshToke
     });
 
     return refreshToken;
-  } catch (error) {
-    return new Error('Erro ao gerar refresh token');
+  } catch (error : unknown) {
+    return new Error(error as string);
   }
 };

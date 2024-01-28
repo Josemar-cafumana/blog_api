@@ -1,11 +1,12 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { categoryProvider } from '../../database/providers/category';
 import { repaged } from '../../utils/pagination';
 
 export const getAll = async (
   req: Request<unknown, unknown, unknown ,{ page?: string; size?: string }>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const { page, size } = req.query;
 
@@ -19,7 +20,7 @@ export const getAll = async (
   const result = await categoryProvider.getAll(validatedPage, validatedSize);
 
   if (result instanceof Error) {
-    return res.status(StatusCodes.BAD_REQUEST).json({ errors: { message: result.message } });
+    return next(result);
   }
 
   const data = repaged(result, validatedPage, validatedSize);

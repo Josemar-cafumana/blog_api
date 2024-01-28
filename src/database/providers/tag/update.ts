@@ -1,5 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../..';
 import { ITag } from '../../../types';
+import { ApiError } from '../../../utils/appError';
 
 export const update = async (id: number, data: ITag): Promise<ITag | Error> => {
   try {
@@ -9,7 +11,7 @@ export const update = async (id: number, data: ITag): Promise<ITag | Error> => {
       }
     });
 
-    if(!tagExists) return new Error('Tag não encontrada'); 
+    if(!tagExists) return new ApiError('Tag não encontrada', StatusCodes.NOT_FOUND); 
 
     const tag = await prisma.tag.update({
       where: {
@@ -21,8 +23,8 @@ export const update = async (id: number, data: ITag): Promise<ITag | Error> => {
     });
 
     return tag;
-  } catch (error) {
-    return new Error('Erro ao actualizar o registro');
+  } catch (error : unknown) {
+    return new Error(error as string);
   }
   
 };

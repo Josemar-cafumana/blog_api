@@ -1,5 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../../../database';
 import { ICategory } from '../../../types';
+import { ApiError } from '../../../utils/appError';
 
 export const create = async (name: string): Promise<ICategory | Error> => {
   try {
@@ -9,7 +11,7 @@ export const create = async (name: string): Promise<ICategory | Error> => {
       }
     });
 
-    if(categoryAlreadyExist) return new Error('A categoria informada já foi cadastrada'); 
+    if(categoryAlreadyExist) return new ApiError('A categoria informada já foi cadastrada', StatusCodes.BAD_REQUEST); 
 
     const category = await prisma.category.create({
       data: {
@@ -18,8 +20,8 @@ export const create = async (name: string): Promise<ICategory | Error> => {
     });
 
     return category;
-  } catch (error) {
-    return new Error('Erro ao cadastrar o registro');
+  } catch (error : unknown) {
+    return new Error(error as string);
   }
   
 };
