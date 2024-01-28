@@ -10,7 +10,8 @@ export const getById = async (id: number): Promise<IProfile | Error> => {
         id,
       },
       include: {
-        media: true
+        media: true,
+        user: true
       }
     });
 
