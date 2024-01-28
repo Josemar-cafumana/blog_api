@@ -22,6 +22,16 @@ export interface ITag {
   updateAt?: Date;
 }
 
+export interface IProfile {
+  id?: number;
+  bio?: string | null ;
+  birth_date?: Date | null;
+  user_id: number;
+  media_id?: number | null;
+  createdAt?: Date;
+  updateAt?: Date;
+}
+
 export interface IMailOptions {
   from?: string;
   to: string;

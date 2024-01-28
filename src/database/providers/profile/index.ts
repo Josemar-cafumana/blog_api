@@ -2,7 +2,7 @@ import { getById } from './getById';
 import { update } from './update';
 
 
-export const profileController = {
+export const profileProvider = {
   getById,
   update,
 };
