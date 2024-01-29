@@ -2,7 +2,6 @@ import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../..';
 import { IComment } from '../../../types';
 import { ApiError } from '../../../utils/appError';
-import { number } from 'yup';
 
 export const update = async (id: number, data: IComment, user_id: number): Promise<IComment | Error> => {
   try {

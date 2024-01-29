@@ -7,6 +7,8 @@ import { postRouter } from './post.routes';
 import { likeRouter } from './like.routes';
 import { favoriteRouter } from './favorite.routes';
 import { commentRouter } from './comment.routes';
+import { readingListsRouter } from './readingLists.routes';
+import { readingListPostsRouter } from './readingListPosts.routes';
 
 export const routes = {
   authRouter,
@@ -17,5 +19,7 @@ export const routes = {
   postRouter,
   likeRouter,
   favoriteRouter,
-  commentRouter
+  commentRouter,
+  readingListsRouter,
+  readingListPostsRouter
 };

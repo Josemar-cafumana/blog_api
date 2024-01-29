@@ -1,4 +1,4 @@
-import { $Enums } from '@prisma/client';
+import { $Enums, ReadingListPosts, ReadingLists } from '@prisma/client';
 
 export interface IUser {
   id?: number;
@@ -89,3 +89,21 @@ export interface IComment {
   createdAt?: Date;
   updateAt?: Date;
 }
+
+export interface IReadingLists {
+  id?: number;
+  name: string;
+  is_public: boolean;
+  user_id: number
+  createdAt?: Date;
+  updateAt?: Date;
+}
+
+export interface IReadingListPosts {
+  id?: number;
+  reading_list_id: number;
+  post_id: number;
+  createdAt?: Date;
+  updateAt?: Date;
+}
+
