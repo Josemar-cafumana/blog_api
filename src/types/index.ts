@@ -22,6 +22,15 @@ export interface ITag {
   updateAt?: Date;
 }
 
+export interface IMedia {
+  id?: number;
+  public_id: string;
+  resource_type: string;
+  url: string;
+  createdAt?: Date;
+  updateAt?: Date;
+}
+
 export interface IProfile {
   id?: number;
   bio?: string | null ;

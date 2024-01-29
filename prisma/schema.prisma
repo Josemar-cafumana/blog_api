@@ -42,9 +42,9 @@ model RefreshToken {
 
 model Media {
   id Int @id @default(autoincrement())
-  public_id  String @unique
+  public_id  String  @db.LongText
   resource_type String
-  url String
+  url String  @db.LongText
 
   profile Profile?
   post Post?
