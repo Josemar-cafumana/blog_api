@@ -64,7 +64,7 @@ model Profile {
 	user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   media_id Int? @unique
-	media Media? @relation(fields: [media_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+	media Media? @relation(fields: [media_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
 
   createdAt DateTime  @default(now()) 
   updateAt DateTime @updatedAt
@@ -109,7 +109,7 @@ model Post {
 	category Category @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   
   media_id Int? @unique
-	media Media? @relation(fields: [media_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+	media Media? @relation(fields: [media_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
 
 
   comments Comment[]

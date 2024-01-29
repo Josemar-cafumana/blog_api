@@ -1,3 +1,5 @@
+import { $Enums } from '@prisma/client';
+
 export interface IUser {
   id?: number;
   name: string;
@@ -49,4 +51,16 @@ export interface IMailOptions {
     path: string;
     replacements: object;
   }
+}
+
+export interface IPost {
+  id?: number;
+  title: string;
+  content: string;
+  status: $Enums.Status;
+  category_id: number;
+  user_id: number;
+  media_id?: number | null;
+  createdAt?: Date;
+  updateAt?: Date;
 }

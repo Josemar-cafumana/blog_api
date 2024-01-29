@@ -17,6 +17,7 @@ app.use('/category', routes.categoryRouter);
 app.use('/tag', routes.tagRouter);
 app.use('/profile', routes.profileRouter);
 app.use('/media', routes.mediaRouter);
+app.use('/post', routes.postRouter);
 
 
 app.use(errorHandler);
