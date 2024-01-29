@@ -20,6 +20,7 @@ app.use('/media', routes.mediaRouter);
 app.use('/post', routes.postRouter);
 app.use('/like', routes.likeRouter);
 app.use('/favorite', routes.favoriteRouter);
+app.use('/comment', routes.commentRouter);
 
 
 app.use(errorHandler);

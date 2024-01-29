@@ -6,6 +6,7 @@ import { mediaRouter } from './media.routes';
 import { postRouter } from './post.routes';
 import { likeRouter } from './like.routes';
 import { favoriteRouter } from './favorite.routes';
+import { commentRouter } from './comment.routes';
 
 export const routes = {
   authRouter,
@@ -15,5 +16,6 @@ export const routes = {
   mediaRouter,
   postRouter,
   likeRouter,
-  favoriteRouter
+  favoriteRouter,
+  commentRouter
 };

@@ -1,13 +1,19 @@
-import { RequestHandler } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { jwtService } from '../services';
 
-export const ensureAuthenticated: RequestHandler =  async (req, res, next) => {
+interface AuthenticatedRequest extends Request {
+  user?: number | null;
+}
+
+export const ensureAuthenticated = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
 
-  if(!authorization) {
+  if (!authorization) {
+    req.user = null;
+
     return res.status(StatusCodes.UNAUTHORIZED).json({
-      errors: { message: 'Não autenticado'}
+      errors: { message: 'Não autenticado' }
     });
   }
 
@@ -15,18 +21,26 @@ export const ensureAuthenticated: RequestHandler =  async (req, res, next) => {
 
   const jwtData = jwtService.verify(token);
 
+  if (jwtData === 'INVALID_TOKEN') {
+    req.user = null;
 
-  if(jwtData == 'INVALID_TOKEN') {
     return res.status(StatusCodes.UNAUTHORIZED).json({
-      errors: { message: 'Token Inválido'}
+      errors: { message: 'Token Inválido' }
     });
   }
 
-  if(jwtData == 'JWT_SECRET_NOT_FOUND') {
+  if (jwtData === 'JWT_SECRET_NOT_FOUND') {
+    req.user = null;
+
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      errors: { message: 'Erro ao gerar token de acesso'}
+      errors: { message: 'Erro ao gerar token de acesso' }
     });
   }
 
-  return next();
+  console.log(jwtData);
+  // Adicionando as informações do usuário ao objeto req
+  req.user = jwtData.id;
+  console.log(req.user); 
+
+  next();
 };

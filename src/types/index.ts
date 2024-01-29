@@ -80,3 +80,12 @@ export interface IFavorite {
   createdAt?: Date;
   updateAt?: Date;
 }
+
+export interface IComment {
+  id?: number;
+  content: string;
+  post_id: number;
+  user_id: number;
+  createdAt?: Date;
+  updateAt?: Date;
+}
