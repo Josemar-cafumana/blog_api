@@ -155,7 +155,7 @@ model Like {
   createdAt DateTime  @default(now()) 
   updateAt DateTime @updatedAt
 
-  @@id([user_id,post_id])
+  @@id(name: "like_id" ,[user_id,post_id])
   @@map("likes")
 } 
 
@@ -169,7 +169,7 @@ model Favorite {
   createdAt DateTime  @default(now()) 
   updateAt DateTime @updatedAt
 
-  @@id([user_id,post_id])
+  @@id(name: "favorite_id", [user_id,post_id])
   @@map("favorites")
 } 
 

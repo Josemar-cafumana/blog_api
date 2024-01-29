@@ -64,3 +64,19 @@ export interface IPost {
   createdAt?: Date;
   updateAt?: Date;
 }
+
+export interface ILike {
+  id?: number;
+  post_id: number;
+  user_id: number;
+  createdAt?: Date;
+  updateAt?: Date;
+}
+
+export interface IFavorite {
+  id?: number;
+  post_id: number;
+  user_id: number;
+  createdAt?: Date;
+  updateAt?: Date;
+}
