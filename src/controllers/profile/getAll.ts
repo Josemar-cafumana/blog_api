@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { tagProvider } from '../../database/providers/tag';
+import { profileProvider } from '../../database/providers/profile';
 import { repaged } from '../../utils/pagination';
 
 export const getAll = async (
@@ -17,7 +17,7 @@ export const getAll = async (
   const validatedPage = (!isNaN(parsedPage) && parsedPage > 0) ? parsedPage : 1;
   const validatedSize = (!isNaN(parsedSize) && parsedSize > 0) ? parsedSize : 10;
 
-  const result = await tagProvider.getAll(validatedPage, validatedSize, name);
+  const result = await profileProvider.getAll(validatedPage, validatedSize, name);
 
   if (result instanceof Error) {
     return next(result);

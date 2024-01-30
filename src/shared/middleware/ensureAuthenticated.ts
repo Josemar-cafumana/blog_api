@@ -37,10 +37,8 @@ export const ensureAuthenticated = async (req: AuthenticatedRequest, res: Respon
     });
   }
 
-  console.log(jwtData);
-  // Adicionando as informações do usuário ao objeto req
+
   req.user = jwtData.id;
-  console.log(req.user); 
 
   next();
 };

@@ -4,11 +4,11 @@ import { postProvider } from '../../database/providers/post';
 import { repaged } from '../../utils/pagination';
 
 export const getAll = async (
-  req: Request<unknown, unknown, unknown ,{ page?: string; size?: string }>,
+  req: Request<unknown, unknown, unknown ,{ page?: string; size?: string; title?: string , user?: string , category?: string  }>,
   res: Response,
   next: NextFunction
 ) => {
-  const { page, size } = req.query;
+  const { page, size, title, user, category } = req.query;
 
   const parsedPage = parseInt(page as string, 10);
   const parsedSize = parseInt(size as string, 10);
@@ -17,7 +17,7 @@ export const getAll = async (
   const validatedPage = (!isNaN(parsedPage) && parsedPage > 0) ? parsedPage : 1;
   const validatedSize = (!isNaN(parsedSize) && parsedSize > 0) ? parsedSize : 10;
 
-  const result = await postProvider.getAll(validatedPage, validatedSize);
+  const result = await postProvider.getAll(validatedPage, validatedSize, title, user, category);
 
   if (result instanceof Error) {
     return next(result);

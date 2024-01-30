@@ -17,7 +17,7 @@ export const create = async (data: IReadingLists): Promise<IReadingLists | Error
     const readingLists = await prisma.readingLists.create({
       data: {
         name: data.name,
-        is_public: data.is_public,
+        is_public: Boolean(JSON.parse(String(data.is_public))) ,
         user_id: Number(data.user_id)
       }
     });

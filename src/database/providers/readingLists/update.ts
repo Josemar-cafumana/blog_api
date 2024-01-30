@@ -19,7 +19,7 @@ export const update = async (id: number, data: IReadingLists): Promise<IReadingL
       },
       data: {
         name: data.name,
-        is_public: data.is_public,
+        is_public: Boolean(JSON.parse(String(data.is_public))) ,
         user_id: data.user_id
       }
     });

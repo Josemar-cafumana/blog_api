@@ -6,15 +6,18 @@ interface IData {
   total: number
 }
 
-export const getAll = async (page: number , size: number, user_id: number ): Promise<IData | Error> => {
+export const getAll = async (page: number , size: number, user_id: number, name: string | undefined, is_public: string | undefined ): Promise<IData | Error> => {
   try {
     const skip = (page - 1) * size;
+    console.log(is_public, Boolean(is_public));
     const [data, total] = await Promise.all([
       prisma.readingLists.findMany({
         skip,
         take: size,
         where: {
-          user_id: Number(user_id)
+          user_id: Number(user_id),
+          ...(name && { name: { contains: name.toLocaleLowerCase() } }),
+          ...(is_public && { is_public: Boolean(JSON.parse(is_public.toLowerCase()))  }),
         },
         include: {
           reading_list_posts: {
@@ -24,9 +27,13 @@ export const getAll = async (page: number , size: number, user_id: number ): Pro
           }
         }
       }),
-      prisma.readingLists.count({ where: {
-        user_id: Number(user_id)
-      },}),
+      prisma.readingLists.count({
+        where: {
+          user_id: Number(user_id),
+          ...(name && { name: { contains: name.toLocaleLowerCase() } }),
+          ...(is_public && { is_public: Boolean(JSON.parse(is_public.toLowerCase()))  }),
+        },
+      }),
     ]);
 
     return { data, total };

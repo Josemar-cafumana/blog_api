@@ -6,7 +6,7 @@ interface IData {
   total: number
 }
 
-export const getAllFavoritesByUser = async (page: number , size: number , user_id: number): Promise<IData | Error> => {
+export const getAllFavoritesByUser = async (page: number , size: number , user_id: number, title: string | undefined): Promise<IData | Error> => {
   try {
     const skip = (page - 1) * size;
     const [data, total] = await Promise.all([
@@ -14,7 +14,8 @@ export const getAllFavoritesByUser = async (page: number , size: number , user_i
         skip,
         take: size,
         where: {
-          user_id: Number(user_id)
+          user_id: Number(user_id),
+          ...(title && { post: { title: { contains: title.toLocaleLowerCase() } } }),
         },
         include: {
           post: true
@@ -22,7 +23,8 @@ export const getAllFavoritesByUser = async (page: number , size: number , user_i
       }),
       prisma.favorite.count({
         where: {
-          user_id: Number(user_id)
+          user_id: Number(user_id),
+          ...(title && { post: { title: { contains: title.toLocaleLowerCase() } } }),
         }
       }),
     ]);

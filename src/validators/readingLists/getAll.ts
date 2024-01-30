@@ -5,6 +5,8 @@ interface IQueryProps  {
   page?: number;
   size?: number;
   user_id: number;
+  name?: string;
+  is_public?: boolean;
 }
 
 export const getAll = Validation((getSchema) => ({
@@ -12,5 +14,7 @@ export const getAll = Validation((getSchema) => ({
     page: yup.number().integer(),
     size: yup.number().integer(),
     user_id: yup.number().integer().required(),
+    name: yup.string(),
+    is_public: yup.boolean(),
   }))
 }));
