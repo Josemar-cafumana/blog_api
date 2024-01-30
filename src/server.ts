@@ -4,10 +4,12 @@ import 'dotenv/config';
 import './shared/services/yup';
 import { errorHandler } from './shared/middleware';
 import { routes } from './routes';
+import cors from 'cors';
 
 
 const app = Express();
 
+app.use(cors());
 app.use(Express.json({ limit: '5mb' }));
 app.use(Express.urlencoded({ limit: '5mb', extended: true }));
 
