@@ -4,7 +4,7 @@ import { readingListsProvider } from '../../database/providers/readingLists';
 import { repaged } from '../../utils/pagination';
 
 export const getAll = async (
-  req: Request<unknown, unknown, unknown ,{ page?: string; size?: string, user_id?: number; name: string | undefined; is_public: string | undefined }>,
+  req: Request<unknown, unknown, unknown ,{ page?: string; size?: string, user_id?: number; name?: string | undefined; is_public?: string | undefined }>,
   res: Response,
   next: NextFunction
 ) => {

@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { commentProvider } from '../../database/providers/comment';
 
 interface AuthenticatedRequest extends Request {
-  user?: number | null;
+  user?: number;
 }
 
 export const update = async (

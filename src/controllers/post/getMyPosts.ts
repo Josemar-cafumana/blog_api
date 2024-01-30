@@ -1,0 +1,53 @@
+import { NextFunction, Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import { postProvider } from '../../database/providers/post';
+import { repaged } from '../../utils/pagination';
+import { $Enums } from '@prisma/client';
+
+interface AuthenticatedRequest
+  extends Request<
+    unknown,
+    unknown,
+    unknown,
+    {
+      page?: string;
+      size?: string;
+      title?: string;
+      status?: $Enums.Status,
+      category?: string;
+    }
+  > {
+  user?: number;
+}
+
+export const getMyPosts = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const { page, size, title, category, status } = req.query;
+
+  const parsedPage = parseInt(page as string, 10);
+  const parsedSize = parseInt(size as string, 10);
+
+  // Verifica se os valores são números válidos, se não, define valores padrão
+  const validatedPage = !isNaN(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+  const validatedSize = !isNaN(parsedSize) && parsedSize > 0 ? parsedSize : 10;
+
+  const result = await postProvider.getMyPosts(
+    validatedPage,
+    validatedSize,
+    title,
+    Number(req.user),
+    status,
+    category
+  );
+
+  if (result instanceof Error) {
+    return next(result);
+  }
+
+  const data = repaged(result, validatedPage, validatedSize);
+
+  return res.status(StatusCodes.OK).json(data);
+};
