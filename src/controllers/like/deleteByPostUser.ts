@@ -2,13 +2,19 @@ import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { likeProvider } from '../../database/providers/like';
 
+interface AuthenticatedRequest
+  extends Request<unknown, unknown, { post_id: number} > {
+  user?: number;
+}
+
 export const deleteByPostUser = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
- 
-  const result = await likeProvider.deleteByPostUser(req.body);
+  const { post_id } = req.body;
+
+  const result = await likeProvider.deleteByPostUser({ post_id, user_id: req.user!});
 
   if(result instanceof Error) {
     return next(result);

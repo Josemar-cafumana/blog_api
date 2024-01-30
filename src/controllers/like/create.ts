@@ -3,13 +3,19 @@ import { StatusCodes } from 'http-status-codes';
 import { ILike } from '../../types';
 import { likeProvider } from '../../database/providers/like';
 
+interface AuthenticatedRequest
+  extends Request<unknown, unknown, { post_id: number} > {
+  user?: number;
+}
+
 export const create = async (
-  req: Request<unknown,unknown,ILike>,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
-  
-  const result = await likeProvider.create(req.body);
+  const { post_id } = req.body;
+
+  const result = await likeProvider.create({ post_id, user_id: req.user!});
 
   if(result instanceof Error) {
     return next(result);

@@ -3,12 +3,16 @@ import { StatusCodes } from 'http-status-codes';
 import { favoriteProvider } from '../../database/providers/favorite';
 import { repaged } from '../../utils/pagination';
 
-export const getAllFavoritesByUser = async (
-  req: Request<unknown, unknown, unknown ,{ page?: string; size?: string; user_id?: number; title?: string }>,
+interface AuthenticatedRequest
+  extends Request<unknown, unknown, unknown ,{ page?: string; size?: string; title?: string }> {
+  user?: number;
+}
+export const getMyFavorites = async (
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
-  const { page, size, user_id, title } = req.query;
+  const { page, size, title } = req.query;
 
   const parsedPage = parseInt(page as string, 10);
   const parsedSize = parseInt(size as string, 10);
@@ -17,7 +21,7 @@ export const getAllFavoritesByUser = async (
   const validatedPage = (!isNaN(parsedPage) && parsedPage > 0) ? parsedPage : 1;
   const validatedSize = (!isNaN(parsedSize) && parsedSize > 0) ? parsedSize : 10;
 
-  const result = await favoriteProvider.getAllFavoritesByUser(validatedPage, validatedSize, Number(user_id), title);
+  const result = await favoriteProvider.getMyFavorites(validatedPage, validatedSize, Number(req.user), title);
 
   if (result instanceof Error) {
     return next(result);

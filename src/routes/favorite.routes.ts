@@ -5,8 +5,8 @@ import { ensureAuthenticated } from '../shared/middleware';
 
 const favoriteRouter = Express.Router();
 
-favoriteRouter.get('/', ensureAuthenticated, favoriteValidator.getAllFavoritesByUser, favoriteController.getAllFavoritesByUser);
+favoriteRouter.get('/me', ensureAuthenticated, favoriteValidator.getMyFavorites, favoriteController.getMyFavorites);
 favoriteRouter.post('/', ensureAuthenticated, favoriteValidator.create, favoriteController.create);
-favoriteRouter.delete('/delete', ensureAuthenticated, favoriteValidator.create, favoriteController.deleteByPostUser);
+favoriteRouter.delete('/delete', ensureAuthenticated, favoriteValidator.deleteByPost, favoriteController.deleteByPost);
 
 export { favoriteRouter };

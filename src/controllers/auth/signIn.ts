@@ -30,6 +30,5 @@ export const signIn = async (
     return next(refreshToken);
   }
 
-
   return res.json({ acessToken , refreshToken }).status(StatusCodes.OK);
 };

@@ -1,7 +1,9 @@
 import { create } from './create';
-import { getAllFavoritesByUser } from './getAllFavoritesByUser';
+import { getMyFavorites } from './getMyFavorites';
+import { deleteByPost } from './deleteByPost';
 
 export const favoriteValidator = {
   create,
-  getAllFavoritesByUser,
+  getMyFavorites,
+  deleteByPost
 };

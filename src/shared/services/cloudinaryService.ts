@@ -1,4 +1,4 @@
-import { UploadApiResponse, DeleteApiResponse } from 'cloudinary';
+import { DeleteApiResponse } from 'cloudinary';
 import { cloudinary } from '../../utils/cloudinary';
 import { IMedia } from '../../types';
 

@@ -1,10 +1,10 @@
 import { create } from './create';
-import { getAllFavoritesByUser } from './getAllFavoritesByUser';
-import { deleteByPostUser } from './deleteByPostUser';
+import { getMyFavorites } from './getMyFavorites';
+import { deleteByPost } from './deleteByPost';
 
 
 export const favoriteController = {
   create,
-  getAllFavoritesByUser,
-  deleteByPostUser,
+  getMyFavorites,
+  deleteByPost,
 };

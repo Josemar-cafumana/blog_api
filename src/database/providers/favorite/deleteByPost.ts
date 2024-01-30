@@ -3,7 +3,7 @@ import { prisma } from '../..';
 import { ApiError } from '../../../utils/appError';
 import { IFavorite } from '../../../types';
 
-export const deleteByPostUser = async (data: IFavorite): Promise<number | Error> => {
+export const deleteByPost = async (data: IFavorite): Promise<number | Error> => {
   try {
     const favoriteExists = await prisma.favorite.findFirst({
       where: {

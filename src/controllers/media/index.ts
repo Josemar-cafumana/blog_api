@@ -4,7 +4,6 @@ import { getById } from './getById';
 import { update } from './update';
 import { deleteById } from './deleteById';
 
-
 export const mediaController = {
   create,
   getAll,

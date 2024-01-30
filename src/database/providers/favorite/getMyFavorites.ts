@@ -6,7 +6,7 @@ interface IData {
   total: number
 }
 
-export const getAllFavoritesByUser = async (page: number , size: number , user_id: number, title: string | undefined): Promise<IData | Error> => {
+export const getMyFavorites = async (page: number , size: number , user_id: number, title: string | undefined): Promise<IData | Error> => {
   try {
     const skip = (page - 1) * size;
     const [data, total] = await Promise.all([
