@@ -506,9 +506,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                    "type": "object",
-                    "$ref": "#/components/schemas/Category"
-                  
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Tag"
+                    }
+                  }
                 }
               }
             }
@@ -812,9 +815,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                    "type": "object",
-                    "$ref": "#/components/schemas/Tag"
-                  
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Tag"
+                    }
+                  }
                 }
               }
             }
@@ -1002,6 +1008,1356 @@
           }
         }
       }
+    },
+    "/profile": {
+      "get": {
+        "tags": ["Profile"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca de perfis",
+        "description": "Busca de perfis",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Nome do usuário",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Quantidade de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página desejada para paginar os resultados.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "items": {
+                      "$ref": "#/components/schemas/Profile"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile/{profileId}": {
+      "get": {
+        "tags": ["Profile"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca de perfil",
+        "description": "Busca de perfil",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "id do perfil para busca",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Profile"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Profile"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Actualizar perfil",
+        "description": "Actualizar perfil",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "id do perfil",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Profile"
+              },
+              "examples": {
+                "profile": {
+                  "value": {
+                    "user_id": 1,
+                    "bio": "Leitor"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Profile"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/media": {
+      "get": {
+        "tags": ["Media"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca de medias",
+        "description": "Busca de medias",
+        "parameters": [
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Quantidade de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página desejada para paginar os resultados.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "items": {
+                      "$ref": "#/components/schemas/Media"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Media"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Cadastro de media",
+        "description": "Cadastro de media",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["media"],
+                "properties": {
+                  "media": {
+                    "type": "string",
+                    "format": "base64"
+                  }
+                }
+              },
+              "examples": {
+                "media": {
+                  "value": {
+                    "media": "base64_encoded_image_here"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Media"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/media/{mediaId}": {
+      "get": {
+        "tags": ["Media"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca de media",
+        "description": "Busca de media",
+        "parameters": [
+          {
+            "name": "mediaId",
+            "in": "path",
+            "description": "id da media para busca",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Media"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Media"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Actualizar media",
+        "description": "Actualizar media",
+        "parameters": [
+          {
+            "name": "mediaId",
+            "in": "path",
+            "description": "id da media",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["media"],
+                "properties": {
+                  "media": {
+                    "type": "string",
+                    "format": "base64"
+                  }
+                }
+              },
+              "examples": {
+                "media": {
+                  "value": {
+                    "media": "base64_encoded_image_here"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Media"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Media"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Deletar media",
+        "description": "Deletar media",
+        "parameters": [
+          {
+            "name": "mediaId",
+            "in": "path",
+            "description": "id da media",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/post": {
+      "get": {
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca de posts",
+        "description": "Busca de posts",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "description": "Título do post",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "description": "Nome do criador",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Categoria do post",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Quantidade de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página desejada para paginar os resultados.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "items": {
+                      "$ref": "#/components/schemas/Post"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Cadastro de post",
+        "description": "Cadastro de post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Post"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/{postId}": {
+      "get": {
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca de post",
+        "description": "Busca de post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "id da post para busca",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Post"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Actualizar post",
+        "description": "Actualizar post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "id da post",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Post"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Deletar post",
+        "description": "Deletar post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "id da post",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/post/me": {
+      "get": {
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca dos meus posts",
+        "description": "Busca dos meus posts",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "description": "Título do post",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Status do post",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["DRAFT", "PUBLISHED", "PRIVATE"]
+            }
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "description": "Nome do criador",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Categoria do post",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Quantidade de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página desejada para paginar os resultados.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "items": {
+                      "$ref": "#/components/schemas/Post"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/tags": {
+      "post": {
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Cadastro de tags para o post",
+        "description": "Cadastro de tags para o post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["post_id", "tags"],
+                "properties": {
+                  "post_id": {
+                    "type": "integer"
+                  },
+                  "tags": {
+                    "type": "array",
+              "items": {
+                "type": "integer"
+              }
+                  }
+                }
+              },
+              "examples": {
+                "tags": {
+                  "value": {
+                    "post_id": 1,
+                    "tags": [1, 2, 3]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/like": {
+      "get": {
+        "tags": ["Like"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca de likes do post",
+        "description": "Busca de likes do post",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "query",
+            "description": "id do post",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Quantidade de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página desejada para paginar os resultados.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "items": {
+                      "$ref": "#/components/schemas/Like"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Like"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Cadastro de like para o post",
+        "description": "Cadastro de like para o post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["post_id"],
+                "properties": {
+                  "post_id": {
+                    "type": "integer",
+                    "format": "base64"
+                  }
+                }
+              },
+              "examples": {
+                "like": {
+                  "value": {
+                    "post_id": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Like"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/like/{likeId}": {
+      "delete": {
+        "tags": ["Like"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Deletar like",
+        "description": "Deletar like",
+        "parameters": [
+          {
+            "name": "likeId",
+            "in": "path",
+            "description": "id da like",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/favorite/me": {
+      "get": {
+        "tags": ["Favorite"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca dos meus posts favoritos",
+        "description": "Busca dos meus posts favoritos",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "description": "Título do post",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Quantidade de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página desejada para paginar os resultados.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "items": {
+                      "$ref": "#/components/schemas/Favorite"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favorite": {
+      "post": {
+        "tags": ["Favorite"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Cadastro de post nos favoritos",
+        "description": "Cadastro de post nos favoritos",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Favorite"
+              },
+              "examples": {
+                "favorite": {
+                  "value": {
+                    "post_id": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/favorite/delete": {
+      "delete": {
+        "tags": ["Favorite"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Deletar post dos favoritos",
+        "description": "Deletar post dos favoritos",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["post_id"],
+                "properties": {
+                  "post_id": {
+                    "type": "integer",
+                    "format": "base64"
+                  }
+                }
+              },
+              "examples": {
+                "favorite": {
+                  "value": {
+                    "post_id": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1035,6 +2391,170 @@
           },
           "name": {
             "type": "string"
+          },
+          "createdAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          },
+          "updatedAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          }
+        }
+      },
+      "Profile": {
+        "type": "object",
+        "required": ["user_id"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "birth_date": {
+            "type": "date",
+            "example": "2024-01-31"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "user": {
+            "type": "object"
+          },
+          "media_id": {
+            "type": "integer"
+          },
+          "media": {
+            "type": "object"
+          },
+          "createdAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          },
+          "updatedAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          }
+        }
+      },
+      "Media": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "public_id": {
+            "type": "string"
+          },
+          "resource_type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          },
+          "updatedAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          }
+        }
+      },
+      "Post": {
+        "type": "object",
+        "required": ["title", "content", "status", "user_id", "media_id", "category_id"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["DRAFT", "PUBLISHED", "PRIVATE"]
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "user": {
+            "type": "object"
+          },
+          "category_id": {
+            "type": "integer"
+          },
+          "category": {
+            "type": "object"
+          },
+          "media_id": {
+            "type": "integer"
+          },
+          "media": {
+            "type": "object"
+          },
+          "createdAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          },
+          "updatedAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          }
+        }
+      },
+      "Like": {
+        "type": "object",
+        "required": ["post_id"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "user": {
+            "type": "object"
+          },
+          "post_id": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          },
+          "updatedAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          }
+        }
+      },
+      "Favorite": {
+        "type": "object",
+        "required": ["post_id"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "user": {
+            "type": "object"
+          },
+          "post_id": {
+            "type": "integer"
+          },
+          "post": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
           },
           "createdAt": {
             "type": "date",
