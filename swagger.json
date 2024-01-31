@@ -2358,6 +2358,684 @@
           }
         }
       }
+    },
+    "/comment": {
+      "get": {
+        "tags": ["Comment"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca de comentários do post",
+        "description": "Busca de comentários do post",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "query",
+            "description": "id do post",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Quantidade de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página desejada para paginar os resultados.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "items": {
+                      "$ref": "#/components/schemas/Comment"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Comment"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Cadastro de comentário para o post",
+        "description": "Cadastro de comentário para o post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["post_id", "content"],
+                "properties": {
+                  "post_id": {
+                    "type": "integer"
+                  },
+                  "content": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "comment": {
+                  "value": {
+                    "post_id": 1,
+                    "content": "teste comentário"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Comment"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comment/{commentId}": {
+      "put": {
+        "tags": ["Comment"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Actualizar comentário",
+        "description": "Actualizar comentário",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "id do comentário",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Comment"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Comment"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Deletar comentário",
+        "description": "Deletar comentário",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "id do comentário",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/list": {
+      "get": {
+        "tags": ["Reading Lists"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca de listas de leitura",
+        "description": "Busca de listas de leitura",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Nome da lista para busca",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "id da criador para busca",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Quantidade de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página desejada para paginar os resultados.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "items": {
+                      "$ref": "#/components/schemas/ReadingList"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Reading Lists"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Cadastro de listas de leitura",
+        "description": "Cadastro de listas de leitura",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReadingList"
+              },
+              "examples": {
+                "list": {
+                  "value": {
+                    "name": "lista 1",
+                    "is_public": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ReadingList"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list/{listId}": {
+      "get": {
+        "tags": ["Reading Lists"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca de lista de leitura",
+        "description": "Busca de lista de leitura",
+        "parameters": [
+          {
+            "name": "listId",
+            "in": "path",
+            "description": "id da lista de leitura para busca",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ReadingList"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Reading Lists"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Actualizar lista de leitura",
+        "description": "Actualizar lista de leitura",
+        "parameters": [
+          {
+            "name": "listId",
+            "in": "path",
+            "description": "id da lista de leitura",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReadingList"
+              },
+              "examples": {
+                "category": {
+                  "value": {
+                    "name": "list 2",
+                    "is_public": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ReadingList"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Reading Lists"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Deletar lista de leitura",
+        "description": "Deletar lista de leitura",
+        "parameters": [
+          {
+            "name": "listId",
+            "in": "path",
+            "description": "id da lista de leitura",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/list-posts": {
+      "post": {
+        "tags": ["Reading List Posts"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Cadastro de post na lista de leitura",
+        "description": "Cadastro de post na lista de leitura",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReadingListPost"
+              },
+              "examples": {
+                "Reading Posts": {
+                  "value": {
+                    "post_id": 1,
+                    "reading_list_id": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }           
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorValidation"
+                }
+              }
+            }          
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/list-posts/delete": {
+      "delete": {
+        "tags": ["Reading List Posts"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Deletar post da lista de leitura",
+        "description": "Deletar post da lista de leitura",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReadingListPost"
+              },
+              "examples": {
+                "Reading Posts": {
+                  "value": {
+                    "post_id": 1,
+                    "reading_list_id": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2555,6 +3233,90 @@
             "items": {
               "type": "object"
             }
+          },
+          "createdAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          },
+          "updatedAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "required": ["post_id", "content"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "content": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "user": {
+            "type": "object"
+          },
+          "post_id": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          },
+          "updatedAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          }
+        }
+      },
+      "ReadingList": {
+        "type": "object",
+        "required": ["is_public", "name"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "is_public": {
+            "type": "boolean"
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "user": {
+            "type": "object"
+          },
+          "reading_list_posts": {
+            "type": "object"
+          },
+          "createdAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          },
+          "updatedAt": {
+            "type": "date",
+            "example": "2024-01-31"
+          }
+        }
+      },
+      "readingListPost": {
+        "type": "object",
+        "required": ["post_id", "reading_list_id"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "post_id": {
+            "type": "integer"
+          },
+          "reading_list_id": {
+            "type": "integer"
           },
           "createdAt": {
             "type": "date",
