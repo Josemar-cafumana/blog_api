@@ -21,7 +21,7 @@ export const signIn = async (
   
   const acessToken = jwtService.signIn({ id: result.id, email: result.email, name: result.email }, '5h');
   if(acessToken === 'JWT_SECRET_NOT_FOUND') {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors: { default: 'Erro ao gerar token de acesso'} });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors: { message: 'Erro ao gerar token de acesso'} });
   }
 
   const refreshToken = await refreshTokenProvider.generateRefreshToken(result.id!);
