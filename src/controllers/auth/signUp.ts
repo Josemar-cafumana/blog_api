@@ -16,5 +16,5 @@ export const signUp = async (
     return next(result);
   }
 
-  return res.json({ data: result }).status(StatusCodes.CREATED);
+  return res.json({ data: {...result, password: null} }).status(StatusCodes.CREATED);
 };

@@ -3,6 +3,7 @@ import { getAll } from './getAll';
 import { getById } from './getById';
 import { update } from './update';
 import { deleteById } from './deleteById';
+import { getMyReadingLists } from './getMyReadingLists';
 
 
 export const ReadingListsValidator = {
@@ -11,4 +12,5 @@ export const ReadingListsValidator = {
   getById,
   update,
   deleteById,
+  getMyReadingLists
 };

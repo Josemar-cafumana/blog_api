@@ -12,7 +12,7 @@ export const create = async (
   next: NextFunction
 ) => {
 
-  const result = await commentProvider.create(req.body, Number(req.user));
+  const result = await commentProvider.create({...req.body, user_id: Number(req.user)});
 
   if(result instanceof Error) {
     return next(result);

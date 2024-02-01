@@ -4,8 +4,12 @@ import { postProvider } from '../../database/providers/post';
 import { cloudinaryService } from '../../shared/services/cloudinaryService';
 import { mediaProvider } from '../../database/providers/media';
 
+interface AuthenticatedRequest
+  extends Request {
+  user?: number;
+}
 export const create = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -23,7 +27,7 @@ export const create = async (
     return next(createMedia);
   }
   
-  const result = await postProvider.create({...req.body, media_id: createMedia.id});
+  const result = await postProvider.create({...req.body, media_id: createMedia.id, user_id: req.user!});
 
   if(result instanceof Error) {
     return next(result);

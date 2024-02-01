@@ -2,11 +2,12 @@ import { StatusCodes } from 'http-status-codes';
 import { prisma } from '../..';
 import { ApiError } from '../../../utils/appError';
 
-export const deleteById = async (id: number): Promise<number | Error> => {
+export const deleteById = async (id: number, user_id: number): Promise<number | Error> => {
   try {
     const readingListsExists = await prisma.readingLists.findFirst({
       where: {
-        id
+        id,
+        user_id: Number(user_id)
       }
     });
 

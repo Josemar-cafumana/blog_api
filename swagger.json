@@ -29,7 +29,8 @@
                 "required": ["name", "email", "password"],
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 3
                   },
                   "email": {
                     "type": "string"
@@ -69,17 +70,22 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["name", "email", "password"],
                   "properties": {
-                    "name": {
-                      "type": "string"
-                    },
-                    "email": {
-                      "type": "string"
-                    },
-                    "password": {
-                      "type": "string",
-                      "minLength": 6
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "minLength": 3
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "password": {
+                          "type": "string",
+                          "minLength": 6
+                        }
+                      }
                     }
                   }
                 }
@@ -380,7 +386,20 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object"
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "minLength": 3
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "password": {
+                          "type": "string",
+                          "minLength": 6
+                        }
+                      }
                     }
                   }
                 }
@@ -694,7 +713,7 @@
               }
             }
           },
-          "204": {
+          "200": {
             "description": "OK"
           }
         }
@@ -1003,7 +1022,7 @@
               }
             }
           },
-          "204": {
+          "200": {
             "description": "OK"
           }
         }
@@ -1526,7 +1545,7 @@
               }
             }
           },
-          "204": {
+          "200": {
             "description": "OK"
           }
         }
@@ -1628,6 +1647,17 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Post"
+              },
+              "examples": {
+                "post": {
+                  "value": {
+                    "title": "Primeiro Post",
+                    "content": "content",
+                    "status": "PUBLISHED",
+                    "category_id": "2",
+                    "media": "base64_encoded_image_here"
+                  }
+                }
               }
             }
           }
@@ -1747,7 +1777,60 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Post"
+                "type": "object",
+                "required": ["title", "content", "status", "category_id"],
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["DRAFT", "PUBLISHED", "PRIVATE"]
+                  },
+                  "user_id": {
+                    "type": "integer"
+                  },
+                  "user": {
+                    "type": "object"
+                  },
+                  "category_id": {
+                    "type": "integer"
+                  },
+                  "category": {
+                    "type": "object"
+                  },
+                  "media_id": {
+                    "type": "integer"
+                  },
+                  "media": {
+                    "type": "string",
+                    "format": "base64"
+                  },
+                  "createdAt": {
+                    "type": "date",
+                    "example": "2024-01-31"
+                  },
+                  "updatedAt": {
+                    "type": "date",
+                    "example": "2024-01-31"
+                  }
+                }
+              },
+              "examples": {
+                "post": {
+                  "value": {
+                    "title": "Primeiro Post",
+                    "content": "content",
+                    "status": "DRAFT",
+                    "category_id": "2"
+                  }
+                }
               }
             }
           }
@@ -1869,15 +1952,6 @@
             "schema": {
               "type": "string",
               "enum": ["DRAFT", "PUBLISHED", "PRIVATE"]
-            }
-          },
-          {
-            "name": "user",
-            "in": "query",
-            "description": "Nome do criador",
-            "required": false,
-            "schema": {
-              "type": "string"
             }
           },
           {
@@ -2139,23 +2213,35 @@
         }
       }
     },
-    "/like/{likeId}": {
+    "/like/delete": {
       "delete": {
         "tags": ["Like"],
         "security": [{ "bearerAuth": [] }],
         "summary": "Deletar like",
         "description": "Deletar like",
-        "parameters": [
-          {
-            "name": "likeId",
-            "in": "path",
-            "description": "id da like",
-            "required": true,
-            "schema": {
-              "type": "integer"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["post_id"],
+                "properties": {
+                  "post_id": {
+                    "type": "integer",
+                    "format": "base64"
+                  }
+                }
+              },
+              "examples": {
+                "like": {
+                  "value": {
+                    "post_id": 1
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
           "401": {
             "description": "Unauthorized",
@@ -2178,7 +2264,7 @@
               }
             }
           },
-          "204": {
+          "200": {
             "description": "OK"
           }
         }
@@ -2353,7 +2439,7 @@
               }
             }
           },
-          "204": {
+          "200": {
             "description": "OK"
           }
         }
@@ -2518,7 +2604,24 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Comment"
+                "type": "object",
+                "required": ["post_id", "content"],
+                "properties": {
+                  "post_id": {
+                    "type": "integer"
+                  },
+                  "content": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "comment": {
+                  "value": {
+                    "post_id": 1,
+                    "content": "teste comentário"
+                  }
+                }
               }
             }
           }
@@ -2610,7 +2713,7 @@
               }
             }
           },
-          "204": {
+          "200": {
             "description": "OK"
           }
         }
@@ -2627,15 +2730,6 @@
             "name": "name",
             "in": "query",
             "description": "Nome da lista para busca",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "user_id",
-            "in": "query",
-            "description": "id da criador para busca",
             "required": false,
             "schema": {
               "type": "string"
@@ -2930,8 +3024,86 @@
               }
             }
           },
-          "204": {
+          "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/list/me": {
+      "get": {
+        "tags": ["Reading Lists"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Busca das minhas listas de leitura",
+        "description": "Busca das minhas listas de leitura",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Nome da lista para busca",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "is_public",
+            "in": "query",
+            "description": "status para busca",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Quantidade de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página desejada para paginar os resultados.",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorResponse"
+                }
+              }
+            } 
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "items": {
+                      "$ref": "#/components/schemas/ReadingList"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -3031,7 +3203,7 @@
               }
             }
           },
-          "204": {
+          "200": {
             "description": "OK"
           }
         }
@@ -3143,7 +3315,7 @@
       },
       "Post": {
         "type": "object",
-        "required": ["title", "content", "status", "user_id", "media_id", "category_id"],
+        "required": ["title", "content", "status", "media", "category_id"],
         "properties": {
           "id": {
             "type": "integer"
@@ -3174,7 +3346,8 @@
             "type": "integer"
           },
           "media": {
-            "type": "object"
+            "type": "string",
+            "format": "base64"
           },
           "createdAt": {
             "type": "date",

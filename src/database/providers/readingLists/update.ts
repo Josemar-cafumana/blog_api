@@ -7,7 +7,8 @@ export const update = async (id: number, data: IReadingLists): Promise<IReadingL
   try {
     const readingListsExists = await prisma.readingLists.findFirst({
       where: {
-        id
+        id,
+        user_id: Number(data.user_id)
       }
     });
 

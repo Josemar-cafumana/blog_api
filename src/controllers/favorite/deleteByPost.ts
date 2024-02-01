@@ -6,6 +6,7 @@ interface AuthenticatedRequest
   extends Request<unknown, unknown, { post_id: number }> {
   user?: number;
 }
+
 export const deleteByPost = async (
   req: AuthenticatedRequest,
   res: Response,

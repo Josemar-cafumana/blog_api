@@ -5,7 +5,7 @@ import { IReadingLists } from '../../types';
 interface IParamsProps  {
   id: number;
 }
-interface IbodyProps extends IReadingLists {}
+interface IbodyProps extends Omit<IReadingLists, 'user_id'> {}
 
 export const update = Validation((getSchema) => ({
   params: getSchema<IParamsProps >(yup.object().shape({
@@ -14,6 +14,5 @@ export const update = Validation((getSchema) => ({
   body: getSchema<IbodyProps >(yup.object().shape({
     name: yup.string().strict().required().min(3).max(191),
     is_public: yup.boolean().required(),
-    user_id: yup.number().integer().required(),
   }))
 }));

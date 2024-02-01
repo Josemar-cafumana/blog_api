@@ -3,11 +3,12 @@ import { prisma } from '../..';
 import { IPost } from '../../../types';
 import { ApiError } from '../../../utils/appError';
 
-export const tags = async (post_id: number, tags: number[]): Promise<IPost | Error> => {
+export const tags = async (post_id: number, tags: number[], user_id: number): Promise<IPost | Error> => {
   try {
     const postExists = await prisma.post.findFirst({
       where: {
-        id: Number(post_id)
+        id: Number(post_id),
+        user_id: Number(user_id)
       }
     });
 

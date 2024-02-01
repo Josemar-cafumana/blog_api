@@ -13,6 +13,14 @@ export const update = async (id: number, data: ITag): Promise<ITag | Error> => {
 
     if(!tagExists) return new ApiError('Tag não encontrada', StatusCodes.NOT_FOUND); 
 
+    const tagAlreadyExist = await prisma.tag.findUnique({
+      where: {
+        name: data.name
+      }
+    });
+
+    if(tagAlreadyExist) return new ApiError('A tag informada já foi cadastrada', StatusCodes.BAD_REQUEST); 
+
     const tag = await prisma.tag.update({
       where: {
         id

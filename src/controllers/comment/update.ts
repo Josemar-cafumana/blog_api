@@ -13,7 +13,7 @@ export const update = async (
 ) => {
   const { id } = req.params;
   
-  const result = await commentProvider.update(Number(id), req.body, Number(req.user));
+  const result = await commentProvider.update(Number(id), {...req.body, user_id: Number(req.user)}, Number(req.user));
 
   if(result instanceof Error) {
     return next(result);

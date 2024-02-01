@@ -15,7 +15,7 @@ export const forgotPassword = async (email: string) : Promise<IUser  | Error> =>
     if(!user) return new ApiError('Usuário não encontrado', StatusCodes.NOT_FOUND); 
     
 
-    const resetToken = jwtService.resetTokenSignIn(user.email, '60s');
+    const resetToken = jwtService.resetTokenSignIn(user.email, '5m');
     if(resetToken === 'JWT_SECRET_NOT_FOUND') {
       return new ApiError('Erro ao gerar token de acesso', StatusCodes.INTERNAL_SERVER_ERROR); 
     }

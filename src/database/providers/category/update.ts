@@ -13,6 +13,14 @@ export const update = async (id: number, data: ICategory): Promise<ICategory | E
 
     if(!categoryExists) return new ApiError('Categoria não encontrada', StatusCodes.NOT_FOUND); 
 
+    const categoryAlreadyExist = await prisma.category.findUnique({
+      where: {
+        name: data.name
+      }
+    });
+
+    if(categoryAlreadyExist) return new ApiError('A categoria informada já foi cadastrada', StatusCodes.BAD_REQUEST); 
+    
     const category = await prisma.category.update({
       where: {
         id

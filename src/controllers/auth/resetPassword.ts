@@ -17,5 +17,5 @@ export const resetPassword = async (
     return next(user);
   }
 
-  return res.json({ data: user}).status(StatusCodes.OK);
+  return res.json({ data: {...user, password: null }}).status(StatusCodes.OK);
 };

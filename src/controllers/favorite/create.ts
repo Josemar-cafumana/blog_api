@@ -3,13 +3,18 @@ import { StatusCodes } from 'http-status-codes';
 import { IFavorite } from '../../types';
 import { favoriteProvider } from '../../database/providers/favorite';
 
+interface AuthenticatedRequest
+  extends Request {
+  user?: number;
+}
+
 export const create = async (
-  req: Request<unknown,unknown,IFavorite>,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
   
-  const result = await favoriteProvider.create(req.body);
+  const result = await favoriteProvider.create({...req.body, user_id: req.user!});
 
   if(result instanceof Error) {
     return next(result);

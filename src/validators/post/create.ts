@@ -3,7 +3,7 @@ import { Validation } from '../../shared/middleware';
 import { IPost } from '../../types';
 import { $Enums } from '@prisma/client';
 
-interface IbodyProps extends Omit<IPost, 'media_id'> {
+interface IbodyProps extends Omit<IPost, 'media_id' | 'user_id'> {
   media: string;
 }
 
@@ -13,7 +13,6 @@ export const create = Validation((getSchema) => ({
     content: yup.string().required(),
     status: yup.mixed<$Enums.Status>().oneOf(Object.values($Enums.Status)).required(),
     category_id: yup.number().integer().required(),
-    user_id:yup.number().integer().required(),
     media: yup.string().required().matches(/^data:image\/[a-zA-Z]+;base64,([^\s]+)$/, 'Imagem em base64-encoded inválido'),
   }))
 }));

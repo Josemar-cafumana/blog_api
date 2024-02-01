@@ -7,7 +7,7 @@ interface IParamsProps  {
   id: number;
 }
 
-interface IbodyProps extends IPost {}
+interface IbodyProps extends Omit<IPost, 'user_id'> {}
 
 export const update = Validation((getSchema) => ({
   params: getSchema<IParamsProps >(yup.object().shape({
@@ -18,7 +18,6 @@ export const update = Validation((getSchema) => ({
     content: yup.string().required(),
     status: yup.mixed<$Enums.Status>().oneOf(Object.values($Enums.Status)).required(),
     category_id: yup.number().integer().required(),
-    user_id:yup.number().integer().required(),
     media_id: yup.number().integer().required(),
   }))
 }));

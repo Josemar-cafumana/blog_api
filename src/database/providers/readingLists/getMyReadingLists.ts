@@ -6,7 +6,7 @@ interface IData {
   total: number
 }
 
-export const getAll = async (page: number , size: number, name: string | undefined ): Promise<IData | Error> => {
+export const getMyReadingLists = async (page: number , size: number, name: string | undefined, is_public: string | undefined , user_id: number): Promise<IData | Error> => {
   try {
     const skip = (page - 1) * size;
 
@@ -15,8 +15,9 @@ export const getAll = async (page: number , size: number, name: string | undefin
         skip,
         take: size,
         where: {
+          user_id: Number(user_id),
           ...(name && { name: { contains: name.toLocaleLowerCase() } }),
-          is_public: true,
+          ...(is_public && { is_public: Boolean(JSON.parse(is_public.toLowerCase()))  }),
         },
         include: {
           reading_list_posts: {
@@ -28,8 +29,9 @@ export const getAll = async (page: number , size: number, name: string | undefin
       }),
       prisma.readingLists.count({
         where: {
+          user_id: Number(user_id),
           ...(name && { name: { contains: name.toLocaleLowerCase() } }),
-          is_public: true,
+          ...(is_public && { is_public: Boolean(JSON.parse(is_public.toLowerCase()))  }),
         },
       }),
     ]);

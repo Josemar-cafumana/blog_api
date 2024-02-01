@@ -6,7 +6,7 @@ interface IParamsProps  {
   id: number;
 }
 
-interface IbodyProps extends IComment {}
+interface IbodyProps extends Omit<IComment, 'user_id'> {}
 
 export const update = Validation((getSchema) => ({
   params: getSchema<IParamsProps >(yup.object().shape({
@@ -14,7 +14,6 @@ export const update = Validation((getSchema) => ({
   })),
   body: getSchema<IbodyProps >(yup.object().shape({
     content: yup.string().strict().required(),
-    user_id:yup.number().integer().required(),
     post_id:yup.number().integer().required(),
   }))
 }));

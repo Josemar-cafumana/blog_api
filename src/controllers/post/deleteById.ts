@@ -4,14 +4,19 @@ import { postProvider } from '../../database/providers/post';
 import { mediaProvider } from '../../database/providers/media';
 import { cloudinaryService } from '../../shared/services/cloudinaryService';
 
+interface AuthenticatedRequest
+  extends Request {
+  user?: number;
+}
+
 export const deleteById = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
   const { id } = req.params;
   
-  const result = await postProvider.deleteById(Number(id));
+  const result = await postProvider.deleteById(Number(id),Number(req.user!));
 
   if(result instanceof Error) {
     return next(result);

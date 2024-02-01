@@ -3,11 +3,12 @@ import { prisma } from '../..';
 import { ApiError } from '../../../utils/appError';
 import { IPost } from '../../../types';
 
-export const deleteById = async (id: number): Promise<IPost | Error> => {
+export const deleteById = async (id: number, user_id: number): Promise<IPost | Error> => {
   try {
     const postExists = await prisma.post.findFirst({
       where: {
-        id
+        id,
+        user_id: Number(user_id)
       }
     });
 
