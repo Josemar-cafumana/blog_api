@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -42,9 +42,9 @@ model RefreshToken {
 
 model Media {
   id Int @id @default(autoincrement())
-  public_id  String  @db.LongText
+  public_id  String  @db.Text
   resource_type String
-  url String  @db.LongText
+  url String  @db.Text
 
   profile Profile?
   post Post?
