@@ -8,7 +8,7 @@ export const sendMail = async (
   optionsMail: IMailOptions
 ): Promise<SMTPTransport.SentMessageInfo | Error> => {
   const source = readFileSync(
-    `./src/resources/${optionsMail.html.path}`,
+    `./resources/${optionsMail.html.path}`,
     'utf-8'
   ).toString();
   const template = Handlebars.compile(source);
