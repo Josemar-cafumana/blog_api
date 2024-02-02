@@ -8,103 +8,102 @@
 </p>
 
 <p align="center">
-  <a href="#sobre">Sobre</a> •
-  <a href="#requisitos">Requisitos</a> •
-  <a href="#instalação">Instalação</a> •
-  <a href="#tecnologias">Tecnologias</a> •
-  <a href="#autor">Autor</a>  
+  <a href="#about">About</a> •
+  <a href="#requirements">Requirements</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#technologies">Technologies</a> •
+  <a href="#author">Author</a>   
 </p>
 
-## Sobre
+## About
 
-Sistema de blog minimalista. Crie, compartilhe e interaja com postagens. Recursos incluem categorias, tags, curtidas, comentários, perfis de usuário e listas de leitura.
+Minimalistic blog system. Create, share, and interact with posts. Features include categories, tags, likes, comments, user profiles, and reading lists.
 
 <img src="./src/assets/Captura de ecrã de 2024-02-02 10-40-48.png" />
 
 
-## Requisitos
+## Requirements
 
-  - [x] **Requisitos Funcionais (RF):**
+  - [x] **Functional Requirements (FR):**
 
-1. *Autenticação de Usuários:*
-    - [x]  Registro de usuários.
-    - [x]  Login e logout.
-    - [x]  Recuperação de senha.
+1. *User Authentication:*
+    - [x]  User registration.
+    - [x]  Login and logout.
+    - [x]  Password recovery.
     - [x]  Refresh Token
-2. *Gerenciamento de Posts:*
-    - [x]  Criação, edição e exclusão de postagens.
-    - [x]  Suporte a texto, imagens e outros tipos de mídia.
-    - [x]  Opção para definir postagens como públicas, privadas ou rascunhos.
-    - [x]  Comentários em postagens.
-    - [x]  Permita que usuários autenticados editem e excluam seus próprios comentários
-    - [x]  Permitir que usuários criiem listas de leitura
-    - [x]  Curtir e favoritar posts
-3. *Categorias e Tags:*
-    - [x]  Possibilidade de categorizar posts.
-    - [x]  Adição de tags para facilitar a busca.
-4. *Busca:*
-    - [x]  Pesquisa por título, autor, categoria, etc.
+2. *Post Management:*
+    - [x]  Creation, editing, and deletion of posts.
+    - [x]  Support for text, images, and other types of media.
+    - [x]  Option to set posts as public, private, or drafts.
+    - [x]  Comments on posts.
+    - [x]  Allow authenticated users to edit and delete their own comments.
+    - [x]  Allow users to create reading lists.
+    - [x]  Like and favorite posts.
+3. *Categories and Tags:*
+    - [x]  Ability to categorize posts.
+    - [x]  Addition of tags to facilitate search.
+4. *Search:*
+    - [x]  Search by title, author, category, etc.
 
     
 
-  - [x] **Regras Não Funcionais (RNF):**
+  - [x] **Non-Functional Requirements (NFR):**
 
-    - [x] <a href="#tecnologias">Tecnologias</a> 
+    - [x] <a href="#technologies">Technologies</a> 
 
 
-## Instalação
+## Installation
 
-Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-[Git](https://git-scm.com) e [Node.js](https://nodejs.org/en/). Além disso é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/).
+Before you begin, you will need to have the following tools installed on your machine: [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/). Also, it's good to have an editor to work with the code such as [VSCode](https://code.visualstudio.com/).
 
-### 🎲 Rodando o Back End (servidor)
+### 🎲 Running the Back End (server)
 
 ```bash
-# Clone este repositório
+# Clone this repository
 $ git clone https://github.com/Josemar-cafumana/blog_api.git
 
-# Acesse a pasta do projeto no terminal/cmd
+# Navigate to the project's folder in the terminal/cmd
 $ cd blog_api
 
-# Configure as variaveis de ambiente
+# Install dependencies
 $ npm install
-# Caso prefira usar o Yarn execute o comando abaixo
+# If you prefer using Yarn, execute the following command
 $ yarn
 
-# Configure as variaveis de ambiente
+# Configure environment variables
 $ cp .env.example .env
 
-# Execute a aplicação em modo de desenvolvimento
+# Run the application in development mode
 $ npm run dev
-# Caso prefira usar o Yarn execute o comando abaixo
+# If you prefer using Yarn, execute the following command
 $ yarn dev
 
-# O servidor iniciará na porta 4000 ou na porta definida no arquivo .env na variável PORT - acesse <http://localhost:4000>
+# The server will start on port 4000 or on the port defined in the .env file under the PORT variable - access <http://localhost:4000>
 ```
 
 
-## Tecnologias
+## Technologies
 
-- [Node.js](https://nodejs.org/en/): Um ambiente de execução JavaScript do lado do servidor.
+- [Node.js](https://nodejs.org/en/): A JavaScript runtime for server-side execution.
 
-- [TypeScript](https://www.typescriptlang.org/): Um superset do JavaScript que adiciona tipos estáticos opcionais.
+- [TypeScript](https://www.typescriptlang.org/): A superset of JavaScript that adds optional static typing.
 
-- [Prisma](https://www.prisma.io/): Um banco de dados ORM (Object-Relational Mapping) para Node.js e TypeScript.
+- [Prisma](https://www.prisma.io/): A database ORM (Object-Relational Mapping) for Node.js and TypeScript.
 
-- [JWT (JSON Web Tokens)](https://jwt.io/): Um padrão para criação de tokens de acesso baseados em JSON para autenticação.
+- [JWT (JSON Web Tokens)](https://jwt.io/): A standard for creating JSON-based access tokens for authentication.
 
-- [Nodemailer](https://nodemailer.com/): Um módulo para envio de e-mails com Node.js.
+- [Nodemailer](https://nodemailer.com/): A module for sending emails with Node.js.
 
-- [Cloudinary](https://cloudinary.com/): Um serviço de gerenciamento de mídia em nuvem.
+- [Cloudinary](https://cloudinary.com/): A cloud-based media management service.
 
-- [Express.js](https://expressjs.com/): Um framework web para Node.js que simplifica o desenvolvimento de aplicativos web. 
+- [Express.js](https://expressjs.com/): A web framework for Node.js that simplifies web application development.
 
-- [MySQL](https://www.mysql.com/): Um sistema de gerenciamento de banco de dados relacional de código aberto.
+- [MySQL](https://www.mysql.com/): An open-source relational database management system.
 
 
-Essas tecnologias foram escolhidas para proporcionar uma experiência de desenvolvimento eficiente, facilitando a criação de um aplicativo robusto e moderno, incluindo recursos de banco de dados, autenticação, envio de e-mails e gerenciamento de mídia.
+These technologies were chosen to provide an efficient development experience, facilitating the creation of a robust and modern application, including database features, authentication, email sending, and media management.
 
-## Autor
+## Author
 
 <div align="center">
 <img src="https://github.com/Josemar-cafumana.png" style="width: 100px; border-radius: 50%" />
