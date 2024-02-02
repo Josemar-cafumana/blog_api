@@ -15,9 +15,8 @@ app.use(cors());
 app.use(Express.json({ limit: '5mb' }));
 app.use(Express.urlencoded({ limit: '5mb', extended: true }));
 
+app.get('/', (_, res) => res.redirect('/api-docs'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-
 app.use('/auth', routes.authRouter);
 app.use('/category', routes.categoryRouter);
 app.use('/tag', routes.tagRouter);
