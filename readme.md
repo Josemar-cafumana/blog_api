@@ -51,11 +51,6 @@ Sistema de blog minimalista. Crie, compartilhe e interaja com postagens. Recurso
 
     - [x] <a href="#tecnologias">Tecnologias</a> 
 
-  - [x] **Regras de Negócios (RN):**
-    - [x] O usuário só pode visualizar transações que ele criou.
-    - [x] Deve ser possível identificar o usuário entre as requisições.
-    - [x] A transação pode do tipo crédito que somará ao valor total ou débito que será subtraído.
-
 
 ## Instalação
 
