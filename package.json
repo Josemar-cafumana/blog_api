@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "tsx src/server.ts",
+    "start": "node dist/server.js",
     "build": "mkdir -p dist/resources && cpy 'resources/**/*' dist/resources/ && tsup src"
   },
   "keywords": [],
